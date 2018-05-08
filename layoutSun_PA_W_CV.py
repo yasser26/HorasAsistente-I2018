@@ -18,18 +18,18 @@ def generateSunLayout(imgResolution, cirCenter, r, PA, W):
 
 
     # x_PA , y_PA are the variables that locate the vector PA in the circle.
-    x_PA = int(r * 1.3 * math.cos(3*math.pi/2 - PA*math.pi/180)) + cirCenter[0]
-    y_PA = int(r * 1.3 * math.sin(3*math.pi/2 - PA*math.pi/180)) + cirCenter[1]
+    x_PA = int(r * 1.1 * math.cos(3*math.pi/2 - PA*math.pi/180)) + cirCenter[0]
+    y_PA = int(r * 1.1 * math.sin(3*math.pi/2 - PA*math.pi/180)) + cirCenter[1]
 
     # vector PA
     cv.arrowedLine(img, cirCenter, (x_PA, y_PA), (0,0,255), 2, tipLength = 0.05)
 
     # (x_upW, y_upW) and (x_downW, y_downW) locate W
-    x_upW = int(r*1.3*math.cos((3*math.pi/2 - PA*math.pi/180) + W*math.pi/360)) + cirCenter[0]
-    y_upW = int(r*1.3*math.sin(3*math.pi/2 - PA*math.pi/180 + W*math.pi/360)) + cirCenter[1]
+    x_upW = int(r*1.1*math.cos((3*math.pi/2 - PA*math.pi/180) + W*math.pi/360)) + cirCenter[0]
+    y_upW = int(r*1.1*math.sin(3*math.pi/2 - PA*math.pi/180 + W*math.pi/360)) + cirCenter[1]
 
-    x_downW = int(r*1.3*math.cos((3*math.pi/2 - PA*math.pi/180) - W*math.pi/360)) + cirCenter[0]
-    y_downW = int(r*1.3*math.sin(3*math.pi/2 - PA*math.pi/180 - W*math.pi/360)) + cirCenter[1]
+    x_downW = int(r*1.1*math.cos((3*math.pi/2 - PA*math.pi/180) - W*math.pi/360)) + cirCenter[0]
+    y_downW = int(r*1.1*math.sin(3*math.pi/2 - PA*math.pi/180 - W*math.pi/360)) + cirCenter[1]
 
     # lines that limits W area
     cv.line(img, cirCenter, (x_upW, y_upW), (0,0,0), 2, cv.LINE_AA)
@@ -38,25 +38,35 @@ def generateSunLayout(imgResolution, cirCenter, r, PA, W):
     # the generated image is returned
     return img
 
+def overlayImageSun_GeneratedSunLayout(pathSunImage, generatedSunLayout):
+    sunImage = cv.imread(pathSunImage)
+    outputImage = cv.addWeighted(generatedSunLayout, 0.5, sunImage, 1-0.5, 0, sunImage)
+    #cv.imshow("sun", sunImage)
+    cv.imwrite('sun.jpg', sunImage)
+
 
 
 # The main() function
 def main():
     # Some parameters are defined to send them to the function
-    imgResolution = (1000, 1000)
-    cirCenter = (250, 500)
-    r = 125
-    PA = 115
-    W = 60
+    imgResolution = (2400, 2495)
+    cirCenter = (1480, 1474)
+    r = 555
+    PA = 50
+    W = 80
+    imagePath = "Sun_Photos/sun4.jpg"
 
     # The function generateSunLayout() return the generated image in the varible 'image'
     image = generateSunLayout(imgResolution, cirCenter, r, PA, W)
+    #print (image.shape)
+
+    overlayImageSun_GeneratedSunLayout(imagePath, image)
 
     # The generated image is displayed and saved
-    cv.imshow('image', image)
+    #cv.imshow('image', image)
     cv.imwrite('imagenGenerada.jpg', image)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
+    #cv.waitKey(0)
+    #cv.destroyAllWindows()
 
 
 if __name__ == '__main__':
