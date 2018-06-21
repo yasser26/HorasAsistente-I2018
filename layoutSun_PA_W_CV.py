@@ -2,6 +2,9 @@
 import cv2 as cv
 import numpy as np
 import math
+import glob
+import os
+
 
 # The function generateSunLayout() generates an image of the sun's layout,
 # taking as parameters the resolution of the image, the radius and center of the
@@ -38,36 +41,93 @@ def generateSunLayout(imgResolution, cirCenter, r, PA, W):
     # the generated image is returned
     return img
 
+# Overlaps the orinal and generated images. Return the overlaped image
 def overlayImageSun_GeneratedSunLayout(pathSunImage, generatedSunLayout):
     sunImage = cv.imread(pathSunImage)
-    outputImage = cv.addWeighted(generatedSunLayout, 0.5, sunImage, 1-0.5, 0, sunImage)
+    outputImage = cv.addWeighted(generatedSunLayout, 0.3, sunImage, 1-0.3, 0, sunImage)
     #cv.imshow("sun", sunImage)
-    cv.imwrite('sun.jpg', sunImage)
+    #cv.imwrite('sun.jpg', sunImage)
+    return outputImage
+# Counts the number of images in a directory and return a result directory
+# with the overlaped images
+def analizeDirSunImage(pathDirProyect):
+    imgResolution = (1024, 1024)
+    cirCenter = (512, 512)
+    r = 380
+    PA = 50
+    W = 80
 
+    # Determines the number of images in the project directory
+    numElements = len(glob.glob(pathDirProyect+"*.jpg"))
 
+    # Create the results directory
+    if not os.path.exists("dirResult"):
+        os.makedirs("dirResult")
+
+    # It iterates over the images, extracting the parameters
+    # and generating the layout of each FITS image
+    for i in range(0, numElements):
+        path = pathDirProyect+str(i)+".jpg"
+        outName = "dirResult/"+"result"+str(i)+".jpg"
+
+        # Se abren y extraen los datos de la imagen FITS
+        # function extractParameters() *** PENDIENTE ****
+        image = generateSunLayout(imgResolution, cirCenter, r, PA, W)
+        out = overlayImageSun_GeneratedSunLayout(path, image)
+
+        cv.imwrite(outName, out)
 
 # The main() function
 def main():
-    # Some parameters are defined to send them to the function
-    imgResolution = (2400, 2495)
-    cirCenter = (1480, 1474)
-    r = 555
+
+    imgResolution = (1024, 1024)
+    cirCenter = (512, 512)
+    r = 380
     PA = 50
     W = 80
-    imagePath = "Sun_Photos/sun4.jpg"
 
-    # The function generateSunLayout() return the generated image in the varible 'image'
-    image = generateSunLayout(imgResolution, cirCenter, r, PA, W)
-    #print (image.shape)
-
-    overlayImageSun_GeneratedSunLayout(imagePath, image)
-
-    # The generated image is displayed and saved
-    #cv.imshow('image', image)
-    cv.imwrite('imagenGenerada.jpg', image)
-    #cv.waitKey(0)
-    #cv.destroyAllWindows()
+    analizeDirSunImage("SunX/")
 
 
 if __name__ == '__main__':
     main()
+
+#    numElements = len(glob.glob("SunX/*.jpg"))
+
+#    print numElements
+
+
+#    if not os.path.exists("HolaDir"):
+#        os.makedirs("HolaDir")
+
+#    for i in range(0, numElements):
+#        path = "SunX/"+str(i)+".jpg"
+#        outName = "HolaDir/result"+str(i)+".jpg"
+
+#        print path
+
+#        image = generateSunLayout(imgResolution, cirCenter, r, PA, W)
+
+#        out = overlayImageSun_GeneratedSunLayout(path, image)
+
+#        cv.imwrite(outName, out)
+
+    # Some parameters are defined to send them to the function
+#    imgResolution = (1024, 1024)
+#    cirCenter = (512, 512)
+#    r = 380
+#    PA = 50
+#    W = 80
+#    imagePath = "SunX/1.jpg"
+
+    # The function generateSunLayout() return the generated image in the varible 'image'
+#    image = generateSunLayout(imgResolution, cirCenter, r, PA, W)
+    #print (image.shape)
+
+#    overlayImageSun_GeneratedSunLayout(imagePath, image)
+
+    # The generated image is displayed and saved
+    #cv.imshow('image', image)
+#    cv.imwrite('imagenGenerada.jpg', image)
+    #cv.waitKey(0)
+    #cv.destroyAllWindows()
