@@ -87,52 +87,8 @@ def main():
     PA = 50
     W = 80
 
-    #analizeDirSunImage("SunX/")
-    sunImageGene = cv.imread('imagenGenerada.jpg')
+    analizeDirSunImage("SunX/")
 
-    imagenSol = overlayImageSun_GeneratedSunLayout('/Sun_Photos/sun4.jpg', sunImageGene)
-
-    cv.imwrite('salida.jpg', imagenSol)
 
 if __name__ == '__main__':
     main()
-
-#    numElements = len(glob.glob("SunX/*.jpg"))
-
-#    print numElements
-
-
-#    if not os.path.exists("HolaDir"):
-#        os.makedirs("HolaDir")
-
-#    for i in range(0, numElements):
-#        path = "SunX/"+str(i)+".jpg"
-#        outName = "HolaDir/result"+str(i)+".jpg"
-
-#        print path
-
-#        image = generateSunLayout(imgResolution, cirCenter, r, PA, W)
-
-#        out = overlayImageSun_GeneratedSunLayout(path, image)
-
-#        cv.imwrite(outName, out)
-
-    # Some parameters are defined to send them to the function
-#    imgResolution = (1024, 1024)
-#    cirCenter = (512, 512)
-#    r = 380
-#    PA = 50
-#    W = 80
-#    imagePath = "SunX/1.jpg"
-
-    # The function generateSunLayout() return the generated image in the varible 'image'
-#    image = generateSunLayout(imgResolution, cirCenter, r, PA, W)
-    #print (image.shape)
-
-#    overlayImageSun_GeneratedSunLayout(imagePath, image)
-
-    # The generated image is displayed and saved
-    #cv.imshow('image', image)
-#    cv.imwrite('imagenGenerada.jpg', image)
-    #cv.waitKey(0)
-    #cv.destroyAllWindows()
