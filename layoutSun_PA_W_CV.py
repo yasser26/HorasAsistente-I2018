@@ -48,6 +48,7 @@ def overlayImageSun_GeneratedSunLayout(pathSunImage, generatedSunLayout):
     #cv.imshow("sun", sunImage)
     #cv.imwrite('sun.jpg', sunImage)
     return outputImage
+
 # Counts the number of images in a directory and return a result directory
 # with the overlaped images
 def analizeDirSunImage(pathDirProyect):
@@ -86,8 +87,12 @@ def main():
     PA = 50
     W = 80
 
-    analizeDirSunImage("SunX/")
+    #analizeDirSunImage("SunX/")
+    sunImageGene = cv.imread('imagenGenerada.jpg')
 
+    imagenSol = overlayImageSun_GeneratedSunLayout('/Sun_Photos/sun4.jpg', sunImageGene)
+
+    cv.imwrite('salida.jpg', imagenSol)
 
 if __name__ == '__main__':
     main()
