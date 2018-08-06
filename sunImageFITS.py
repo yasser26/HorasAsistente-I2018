@@ -18,7 +18,16 @@ def main():
 #    print (sunImageFile[0].data.shape)
 #    image_data = fits.getdata(fits_image_filename)
 
-    cv.imwrite('PruebaFITS.jpeg', sunImageFile[0].data)
+
+    image_data = fits.getdata('ImageFITS/5.fits', ext=0)
+    print(image_data.shape)
+
+    plt.figure()
+    plt.imshow(image_data)
+    plt.colorbar()
+    plt.savefig("outFitsImagePLT.png")
+
+    cv.imwrite('outFitsImageCV.png', sunImageFile[0].data)
 
     sunImageFile.close()
 
